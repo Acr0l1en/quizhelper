@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rota Exercise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #exercise-container {
+            display: inline-block;
+            text-align: left;
+        }
+
+        input {
+            width: 150px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="exercise-container">
+    <h1 id="word-header">Translate the word:</h1>
+
+    <label for="genitive-input">Genitive:</label>
+    <input type="text" id="genitive-input" placeholder="Type genitive form" autocomplete="off">
+
+    <br>
+
+    <label for="translation-input">Translation:</label>
+    <input type="text" id="translation-input" placeholder="Your translation" autocomplete="off">
+
+    <br>
+
+    <label for="gender-input">Gender:</label>
+    <input type="text" id="gender-input" placeholder="e.g., F, M, N, M/F" autocomplete="off">
+
+    <br>
+
+    <button id="submit-button" onclick="checkTranslation()">Submit</button>
+
+    <script>
+        // Define the vocabulary
+        var vocabulary = [
+            { word: "rota", genitive: "rotae", gender: "F", translation: "wheel" },
+            { word: "plaustrum", genitive: "plaustri", gender: "N", translation: "wagon" },
+            { word: "silentium", genitive: "silentii", gender: "N", translation: "silence" },
+            { word: "homo", genitive: "hominis", gender: "M", translation: "man, human being" },
+            { word: "onus", genitive: "oneris", gender: "N", translation: "load" },
+            { word: "nubes", genitive: "nubis", gender: "M/F", translation: "cloud" },
+            { word: "pulvis", genitive: "pulveris", gender: "M", translation: "dust" },
+            { word: "bos", genitive: "bovis", gender: "M/F", translation: "ox" }
+        ];
+
+        function getRandomWord() {
+            var randomIndex = Math.floor(Math.random() * vocabulary.length);
+            return vocabulary[randomIndex];
+        }
+
+        function displayRandomWord() {
+            var randomWord = getRandomWord();
+
+            // Display the random word and update placeholders
+            document.getElementById('word-header').textContent = "Translate the word: \"" + randomWord.word + "\"";
+            document.getElementById('genitive-input').value = '';
+            document.getElementById('translation-input').value = '';
+            document.getElementById('gender-input').value = '';
+        }
+
+        function checkTranslation() {
+            var genitiveInput = document.getElementById('genitive-input').value.toLowerCase();
+            var translationInput = document.getElementById('translation-input').value;
+            var genderInput = document.getElementById('gender-input').value.toUpperCase();
+
+            var randomWord = getRandomWord();
+
+            var incorrectParts = [];
+
+            if (genitiveInput !== randomWord.genitive.toLowerCase()) {
+                incorrectParts.push('genitive');
+            }
+
+            if (translationInput.trim() !== randomWord.translation.toLowerCase()) {
+                incorrectParts.push('translation');
+            }
+
+            if (genderInput.trim() !== randomWord.gender) {
+                incorrectParts.push('gender');
+            }
+
+            if (incorrectParts.length === 0) {
+                alert('Correct! You translated "' + randomWord.word + '" to "' + translationInput + '" and identified the gender as "' + genderInput + '".');
+                displayRandomWord();  // Display a new random word after correct answer
+            } else {
+                var feedbackMessage = "WRONG!";
+            }
+        }
+
+        // Initial display of a random word
+        displayRandomWord();
+    </script>
+
+</div>
+
+</body>
+</html>
